@@ -63,16 +63,16 @@ class Ghost {
 
     moveBackwards() {
         switch (this.direction) {
-            case 4: // Right
+            case 4:
                 this.x -= this.speed;
                 break;
-            case 3: // Up
+            case 3:
                 this.y += this.speed;
                 break;
-            case 2: // Left
+            case 2:
                 this.x += this.speed;
                 break;
-            case 1: // Bottom
+            case 1:
                 this.y -= this.speed;
                 break;
         }
@@ -80,16 +80,16 @@ class Ghost {
 
     moveForwards() {
         switch (this.direction) {
-            case 4: // Right
+            case 4:
                 this.x += this.speed;
                 break;
-            case 3: // Up
+            case 3:
                 this.y -= this.speed;
                 break;
-            case 2: // Left
+            case 2:
                 this.x -= this.speed;
                 break;
-            case 1: // Bottom
+            case 1:
                 this.y += this.speed;
                 break;
         }
@@ -98,18 +98,10 @@ class Ghost {
     checkCollisions() {
         let isCollided = false;
         if (
-            map[parseInt(this.y / oneBlockSize)][
-                parseInt(this.x / oneBlockSize)
-            ] == 1 ||
-            map[parseInt(this.y / oneBlockSize + 0.9999)][
-                parseInt(this.x / oneBlockSize)
-            ] == 1 ||
-            map[parseInt(this.y / oneBlockSize)][
-                parseInt(this.x / oneBlockSize + 0.9999)
-            ] == 1 ||
-            map[parseInt(this.y / oneBlockSize + 0.9999)][
-                parseInt(this.x / oneBlockSize + 0.9999)
-            ] == 1
+            map[parseInt(this.y / oneBlockSize)][parseInt(this.x / oneBlockSize)] == 1 ||
+            map[parseInt(this.y / oneBlockSize + 0.9999)][parseInt(this.x / oneBlockSize)] == 1 ||
+            map[parseInt(this.y / oneBlockSize)][parseInt(this.x / oneBlockSize + 0.9999)] == 1 ||
+            map[parseInt(this.y / oneBlockSize + 0.9999)][parseInt(this.x / oneBlockSize + 0.9999)] == 1
         ) {
             isCollided = true;
         }
@@ -129,8 +121,7 @@ class Ghost {
         }
         if (
             this.getMapY() != this.getMapYRightSide() &&
-            (this.direction == DIRECTION_LEFT ||
-                this.direction == DIRECTION_RIGHT)
+            (this.direction == DIRECTION_LEFT || this.direction == DIRECTION_RIGHT)
         ) {
             this.direction = DIRECTION_UP;
         }
@@ -147,7 +138,6 @@ class Ghost {
         } else {
             this.moveBackwards();
         }
-        console.log(this.direction);
     }
 
     calculateNewDirection(map, destX, destY) {
@@ -155,7 +145,6 @@ class Ghost {
         for (let i = 0; i < map.length; i++) {
             mp[i] = map[i].slice();
         }
-
         let queue = [
             {
                 x: this.getMapX(),
@@ -177,47 +166,29 @@ class Ghost {
                 }
             }
         }
-
-        return 1; // direction
+        return 1;
     }
 
     addNeighbors(poped, mp) {
         let queue = [];
         let numOfRows = mp.length;
         let numOfColumns = mp[0].length;
-
-        if (
-            poped.x - 1 >= 0 &&
-            poped.x - 1 < numOfRows &&
-            mp[poped.y][poped.x - 1] != 1
-        ) {
+        if (poped.x - 1 >= 0 && poped.x - 1 < numOfRows && mp[poped.y][poped.x - 1] != 1) {
             let tempMoves = poped.moves.slice();
             tempMoves.push(DIRECTION_LEFT);
             queue.push({ x: poped.x - 1, y: poped.y, moves: tempMoves });
         }
-        if (
-            poped.x + 1 >= 0 &&
-            poped.x + 1 < numOfRows &&
-            mp[poped.y][poped.x + 1] != 1
-        ) {
+        if (poped.x + 1 >= 0 && poped.x + 1 < numOfRows && mp[poped.y][poped.x + 1] != 1) {
             let tempMoves = poped.moves.slice();
             tempMoves.push(DIRECTION_RIGHT);
             queue.push({ x: poped.x + 1, y: poped.y, moves: tempMoves });
         }
-        if (
-            poped.y - 1 >= 0 &&
-            poped.y - 1 < numOfColumns &&
-            mp[poped.y - 1][poped.x] != 1
-        ) {
+        if (poped.y - 1 >= 0 && poped.y - 1 < numOfColumns && mp[poped.y - 1][poped.x] != 1) {
             let tempMoves = poped.moves.slice();
             tempMoves.push(DIRECTION_UP);
             queue.push({ x: poped.x, y: poped.y - 1, moves: tempMoves });
         }
-        if (
-            poped.y + 1 >= 0 &&
-            poped.y + 1 < numOfColumns &&
-            mp[poped.y + 1][poped.x] != 1
-        ) {
+        if (poped.y + 1 >= 0 && poped.y + 1 < numOfColumns && mp[poped.y + 1][poped.x] != 1) {
             let tempMoves = poped.moves.slice();
             tempMoves.push(DIRECTION_BOTTOM);
             queue.push({ x: poped.x, y: poped.y + 1, moves: tempMoves });
@@ -226,32 +197,22 @@ class Ghost {
     }
 
     getMapX() {
-        let mapX = parseInt(this.x / oneBlockSize);
-        return mapX;
+        return parseInt(this.x / oneBlockSize);
     }
 
     getMapY() {
-        let mapY = parseInt(this.y / oneBlockSize);
-        return mapY;
+        return parseInt(this.y / oneBlockSize);
     }
 
     getMapXRightSide() {
-        let mapX = parseInt((this.x * 0.99 + oneBlockSize) / oneBlockSize);
-        return mapX;
+        return parseInt((this.x * 0.99 + oneBlockSize) / oneBlockSize);
     }
 
     getMapYRightSide() {
-        let mapY = parseInt((this.y * 0.99 + oneBlockSize) / oneBlockSize);
-        return mapY;
-    }
-
-    changeAnimation() {
-        this.currentFrame =
-            this.currentFrame == this.frameCount ? 1 : this.currentFrame + 1;
+        return parseInt((this.y * 0.99 + oneBlockSize) / oneBlockSize);
     }
 
     draw() {
-        canvasContext.save();
         canvasContext.drawImage(
             ghostFrames,
             this.imageX,
@@ -263,17 +224,6 @@ class Ghost {
             this.width,
             this.height
         );
-        canvasContext.restore();
-        canvasContext.beginPath();
-        canvasContext.strokeStyle = "red";
-        canvasContext.arc(
-            this.x + oneBlockSize / 2,
-            this.y + oneBlockSize / 2,
-            this.range * oneBlockSize,
-            0,
-            2 * Math.PI
-        );
-        canvasContext.stroke();
     }
 }
 
@@ -288,3 +238,5 @@ let drawGhosts = () => {
         ghosts[i].draw();
     }
 };
+
+
